@@ -6,20 +6,299 @@
 <title>Kickoff & Onboarding</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: system-ui, -apple-system, sans-serif; background: #f8f9fa; color: #1a1a1a; min-height: 100vh; padding: 32px 24px; display: flex; align-items: center; justify-content: center; }
-  .container { max-width: 560px; width: 100%; text-align: center; }
+  html { scroll-behavior: smooth; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: #f8f9fa; color: #1a1a1a; min-height: 100vh; padding: 32px 24px; }
+  .container { max-width: 840px; margin: 0 auto; }
   .back { font-size: 13px; color: #534AB7; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 20px; font-weight: 500; }
   .back:hover { text-decoration: underline; }
-  h1 { font-size: 22px; font-weight: 700; margin-bottom: 24px; }
-  .tbd { background: #fff; border: 1px solid #e2e2e2; border-radius: 12px; padding: 48px 32px; color: #999; font-size: 16px; }
-  .footer { margin-top: 24px; font-size: 12px; color: #999; }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { font-size: 14px; color: #666; margin-bottom: 24px; }
+  .page-card { background: #fff; border: 1px solid #e2e2e2; border-radius: 12px; padding: 28px 32px 32px; overflow-x: auto; }
+  .leg { display: flex; gap: 18px; flex-wrap: wrap; padding: 0 0 18px; font-size: 12px; color: #555; border-bottom: 1px solid #eee; margin-bottom: 28px; align-items: center; }
+  .leg span { display: flex; align-items: center; gap: 6px; }
+  .ldot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+  .footer { margin-top: 24px; font-size: 12px; color: #999; text-align: center; }
+
+  .nodes { display: flex; flex-direction: column; align-items: center; }
+
+  .n-ceo  { background: #E8F5E9; border: 1.5px solid #43A047; color: #1B5E20; }
+  .n-pm   { background: #F0E6D6; border: 1.5px solid #8B6914; color: #3D2E00; }
+  .n-s    { background: #FFF8DC; border: 1.5px solid #C5A000; color: #4E3300; }
+  .n-c    { background: #FCE4EC; border: 1.5px solid #C2185B; color: #4A0028; }
+  .n-d    { background: #EDE7F6; border: 1.5px solid #7E57C2; color: #2A1052; }
+  .n-team { background: #F5F5F5; border: 1.5px solid #9E9E9E; color: #333; }
+  .n-multi { background: #F5F5F5; border: 1.5px solid #888; color: #333; }
+
+  .n { padding: 10px 22px; border-radius: 10px; font-size: 13px; text-align: center; line-height: 1.45; max-width: 340px; width: fit-content; min-width: 240px; scroll-margin-top: 24px; }
+  .n b { font-weight: 700; }
+  .small-node { padding: 8px 16px; border-radius: 8px; font-size: 12px; text-align: center; line-height: 1.4; width: fit-content; min-width: 180px; }
+
+  .diamond { background: #E3F2FD; border: 1.5px solid #1565C0; color: #0D2E5A; padding: 14px 28px; border-radius: 10px; font-size: 13px; font-weight: 600; text-align: center; min-width: 220px; max-width: 320px; position: relative; }
+  .diamond::before { content: '◆'; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 10px; color: #1565C0; }
+
+  .gap { height: 32px; display: flex; align-items: center; justify-content: center; }
+  .gap .pipe { width: 2px; height: 100%; background: #bbb; }
+  .gap-sm { height: 20px; display: flex; align-items: center; justify-content: center; }
+  .gap-sm .pipe { width: 2px; height: 100%; background: #bbb; }
+
+  .branch-row { display: flex; width: 100%; justify-content: center; gap: 0; }
+  .branch-side { display: flex; flex-direction: column; align-items: center; padding: 0 16px; flex: 0 0 auto; width: 340px; }
+  .branch-label { font-size: 11px; font-weight: 700; padding: 3px 14px; border-radius: 12px; margin-bottom: 8px; margin-top: 4px; }
+  .lbl-yes { background: #E8F5E9; color: #2E7D32; }
+  .lbl-no  { background: #FFF3E0; color: #E65100; }
+  .branch-connector { width: 2px; height: 16px; background: #bbb; }
+  .branch-action { font-size: 12px; color: #555; text-align: center; line-height: 1.4; padding: 4px 8px; }
+
+  .res { font-size: 11px; font-weight: 600; margin-top: 6px; padding: 3px 12px; border-radius: 10px; display: inline-block; text-decoration: none; transition: opacity 0.15s; }
+  .res:hover { opacity: 0.75; }
+  .res-cont { background: #E8F5E9; color: #2E7D32; }
+  .res-loop { background: #FFF3E0; color: #E65100; }
+
+  .section { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 12px; margin-top: 8px; }
+
+  .parallel-box { border: 1.5px dashed #bbb; border-radius: 12px; padding: 24px 20px 20px; width: 100%; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; }
+  .parallel-label { position: absolute; top: -10px; left: 20px; background: #fff; padding: 0 8px; font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+  .kanban-col { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 160px; max-width: 220px; gap: 6px; }
+  .kanban-header { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 12px; border-radius: 8px; margin-bottom: 4px; text-align: center; }
+  .kanban-header-ceo { background: #E8F5E9; color: #1B5E20; }
+  .kanban-header-pm { background: #F0E6D6; color: #3D2E00; }
+  .kanban-header-s { background: #FFF8DC; color: #4E3300; }
+  .kanban-header-d { background: #EDE7F6; color: #2A1052; }
+  .kanban-item { font-size: 12px; line-height: 1.4; color: #444; background: #fafafa; border: 1px solid #e8e8e8; border-radius: 8px; padding: 8px 10px; text-align: center; width: 100%; }
+
+  .checklist-box { border: 2px dashed #E53935; border-radius: 10px; padding: 16px 20px; margin-top: 8px; width: fit-content; }
+  .checklist-title { font-size: 11px; font-weight: 700; color: #E53935; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; }
+  .checklist-item { font-size: 12px; color: #555; padding: 4px 8px; background: #fafafa; border: 1px solid #eee; border-radius: 6px; text-align: center; }
+  .checklist-note { margin-top: 10px; font-size: 11px; color: #E53935; font-style: italic; }
+
+  .link-card { background: #fff; border: 1px solid #e2e2e2; border-radius: 12px; padding: 16px 20px; text-decoration: none; color: inherit; display: block; transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s; width: 100%; text-align: center; }
+  .link-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); transform: translateY(-2px); border-color: #534AB7; }
+  .link-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .link-card p { font-size: 12px; color: #666; }
+  .link-card .arrow-icon { font-size: 16px; margin-top: 6px; display: inline-block; }
+
+  .split-row { display: flex; width: 100%; justify-content: center; gap: 32px; }
+  .split-branch { display: flex; flex-direction: column; align-items: center; flex: 1; max-width: 280px; }
+  .split-branch .branch-pipe { width: 2px; height: 24px; background: #bbb; }
+  .split-branch .branch-arrow { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 7px solid #bbb; margin-bottom: 10px; }
+
+  @keyframes flash { 0%{box-shadow:0 0 0 6px rgba(83,74,183,0.35)} 100%{box-shadow:0 0 0 0 rgba(83,74,183,0)} }
+  .n:target { animation: flash 1s ease-out; }
 </style>
 </head>
 <body>
 <div class="container">
-  <a class="back" href="index.html">← Back to all workflows</a>
+  <a class="back" href="index.html">← Back to full process</a>
   <h1>Kickoff & Onboarding</h1>
-  <div class="tbd">TBD</div>
+  <p class="subtitle">Initial client setup, kickoff, and onboarding process</p>
+
+  <div class="page-card">
+    <div class="leg">
+      <span><i class="ldot" style="background:#E8F5E9;outline:1px solid #43A047"></i>CEO</span>
+      <span><i class="ldot" style="background:#F0E6D6;outline:1px solid #8B6914"></i>PM</span>
+      <span><i class="ldot" style="background:#FFF8DC;outline:1px solid #C5A000"></i>S – Strategist</span>
+      <span><i class="ldot" style="background:#FCE4EC;outline:1px solid #C2185B"></i>C – Copywriter</span>
+      <span><i class="ldot" style="background:#EDE7F6;outline:1px solid #7E57C2"></i>D – Designer</span>
+      <span><i class="ldot" style="background:#F5F5F5;outline:1px solid #9E9E9E"></i>Team</span>
+    </div>
+
+    <div class="nodes">
+
+      <!-- ===== CONTRACT ===== -->
+      <div class="section">Contract & Invoice</div>
+
+      <div class="n n-ceo"><b>CEO</b> · Send contract to client</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="n n-ceo"><b>CEO</b> · Send invoice to client</div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <div class="diamond" id="d-contract">Client signed the contract?</div>
+
+      <div class="branch-row">
+        <div class="branch-side">
+          <span class="branch-label lbl-yes">✓ Yes</span>
+          <div class="branch-connector"></div>
+          <div class="branch-action">Begin setup</div>
+          <a href="#setup" class="res res-cont">↓ Move to setup</a>
+        </div>
+        <div class="branch-side">
+          <span class="branch-label lbl-no">✗ No</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-ceo"><b>CEO</b> · Send reminder</div>
+          <div style="height:8px"></div>
+          <a href="#d-contract" class="res res-loop">↩ Loop</a>
+        </div>
+      </div>
+
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ===== SETUP (PARALLEL) ===== -->
+      <div class="section" id="setup">Parallel Setup</div>
+
+      <div class="parallel-box">
+        <span class="parallel-label">All tasks run in parallel</span>
+        <div class="kanban-col">
+          <div class="kanban-header kanban-header-ceo">CEO</div>
+          <div class="kanban-item">Send kickoff email to client and team</div>
+          <div class="kanban-item">Create design intake form</div>
+          <div class="kanban-item">Create Google Drive folder</div>
+          <div class="kanban-item">Add client to Clockify</div>
+          <div class="kanban-item">Create Figma project</div>
+          <div class="kanban-item">Create email alias</div>
+        </div>
+        <div class="kanban-col">
+          <div class="kanban-header kanban-header-pm">PM</div>
+          <div class="kanban-item">Create ClickUp space</div>
+          <div class="kanban-item">Set up internal Slack channels</div>
+          <div class="kanban-item">Set up external Slack channel</div>
+          <div class="kanban-item">Populate ClickUp lists with scope</div>
+        </div>
+      </div>
+
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ===== PLATFORM ACCESS ===== -->
+      <div class="section">Platform & Assets Access</div>
+
+      <div class="diamond" id="d-access">Client provided platform & assets access?</div>
+
+      <div class="branch-row">
+        <div class="branch-side">
+          <span class="branch-label lbl-yes">✓ Yes</span>
+          <div class="branch-connector"></div>
+          <div class="branch-action">Access received</div>
+          <a href="#brand-review" class="res res-cont">↓ Move to kickoff prep</a>
+        </div>
+        <div class="branch-side">
+          <span class="branch-label lbl-no">✗ No</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-pm"><b>PM</b> · Chase client via email</div>
+          <div style="height:8px"></div>
+          <a href="#d-access" class="res res-loop">↩ Loop</a>
+        </div>
+      </div>
+
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ===== KICKOFF PREP ===== -->
+      <div class="section" id="brand-review">Kickoff Preparation</div>
+
+      <div class="n n-team"><b>Team</b> · Review brand guidelines and assets</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="n n-s"><b>S</b> · Create Kickoff doc</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="n n-s"><b>S</b> · Share Kickoff doc internally</div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ===== KICKOFF CALL ===== -->
+      <div class="section">Kickoff Call</div>
+
+      <div class="n n-multi"><b>S</b>, <b>PM</b>, <b>C</b> · Kickoff call</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+
+      <div class="checklist-box">
+        <div class="checklist-title">Kickoff Deck Topics</div>
+        <div class="checklist-grid">
+          <div class="checklist-item">Introductions</div>
+          <div class="checklist-item">Project overview</div>
+          <div class="checklist-item">L&C Process</div>
+          <div class="checklist-item">Reporting + Comms</div>
+          <div class="checklist-item">Resources required</div>
+          <div class="checklist-item">Questions + Next steps</div>
+        </div>
+        <div class="checklist-note">Strategist can lead this</div>
+      </div>
+
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ===== POST-KICKOFF ===== -->
+      <div class="section">Post-Kickoff</div>
+
+      <div class="n n-pm"><b>PM</b> · Create action items from Kickoff call</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="n n-pm"><b>PM</b> · Share action items internally</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="n n-pm"><b>PM</b> · Share action items with client</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="n n-pm"><b>PM</b> · Clean up Kickoff deck</div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ===== DESIGN INTAKE ===== -->
+      <div class="section">Design Intake</div>
+
+      <div class="n n-d"><b>D</b> · Review design intake form (Design Guidelines)</div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <div class="diamond" id="d-design-kickoff">Client needs a Design kick off call?</div>
+
+      <div class="branch-row">
+        <div class="branch-side">
+          <span class="branch-label lbl-yes">✓ Yes</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-multi"><b>S</b>, <b>D</b> · Prepare for Design kick off (Design call document)</div>
+          <div style="height:6px"></div>
+          <div class="small-node n-multi"><b>S</b>, <b>D</b> · Design Kick off Call</div>
+          <div style="height:6px"></div>
+          <a href="#final-tasks" class="res res-cont">↓ Continue</a>
+        </div>
+        <div class="branch-side">
+          <span class="branch-label lbl-no">✗ No</span>
+          <div class="branch-connector"></div>
+          <div class="branch-action">Skip design kick off</div>
+          <a href="#final-tasks" class="res res-cont">↓ Continue</a>
+        </div>
+      </div>
+
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ===== FINAL TASKS ===== -->
+      <div class="section" id="final-tasks">Final Setup</div>
+
+      <div class="parallel-box">
+        <span class="parallel-label">All tasks run in parallel</span>
+        <div class="kanban-col">
+          <div class="kanban-header kanban-header-d">Designer</div>
+          <div class="kanban-item">Build Master design template</div>
+        </div>
+        <div class="kanban-col">
+          <div class="kanban-header kanban-header-s">Strategist</div>
+          <div class="kanban-item">Set up Klaviyo</div>
+          <div class="kanban-item">Prepare for Campaigns</div>
+        </div>
+      </div>
+
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ===== FLOWS OR CAMPAIGNS ===== -->
+      <div class="section">Next Step</div>
+
+      <div class="diamond">Flows or Campaigns?</div>
+
+      <div class="split-row" style="margin-top:4px;">
+        <div class="split-branch">
+          <div class="branch-pipe"></div>
+          <div class="branch-arrow"></div>
+          <a class="link-card" href="campaigns-workflow.html">
+            <h3 style="color:#C5A000;">Campaigns</h3>
+            <p>View campaign workflow</p>
+            <span class="arrow-icon">→</span>
+          </a>
+        </div>
+        <div class="split-branch">
+          <div class="branch-pipe"></div>
+          <div class="branch-arrow"></div>
+          <a class="link-card" href="flows-workflow.html">
+            <h3 style="color:#7E57C2;">Flows</h3>
+            <p>View flow workflow</p>
+            <span class="arrow-icon">→</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <div class="footer">To request changes, open the Claude project and describe the update you need.</div>
 </div>
 </body>
