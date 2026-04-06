@@ -7,68 +7,69 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: system-ui, -apple-system, sans-serif; background: #f8f9fa; color: #1a1a1a; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 32px 24px; }
-  .container { max-width: 620px; width: 100%; }
-  h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
-  .subtitle { font-size: 14px; color: #666; margin-bottom: 36px; }
+  .container { max-width: 680px; width: 100%; }
+  h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; text-align: center; }
+  .subtitle { font-size: 14px; color: #666; margin-bottom: 40px; text-align: center; }
 
   .process { display: flex; flex-direction: column; align-items: center; gap: 0; }
 
-  .step-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+  .card { border-radius: 12px; padding: 28px 28px; text-decoration: none; color: inherit; display: block; transition: box-shadow 0.2s, transform 0.2s; width: 100%; }
+  .card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }
+  .card h2 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+  .card p { font-size: 13px; line-height: 1.5; opacity: 0.8; }
 
-  .card { background: #fff; border: 1px solid #e2e2e2; border-radius: 12px; padding: 24px 28px; text-decoration: none; color: inherit; display: block; transition: box-shadow 0.15s, border-color 0.15s; width: 100%; }
-  .card:hover { border-color: #534AB7; box-shadow: 0 4px 16px rgba(83,74,183,0.12); }
-  .card h2 { font-size: 17px; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-  .card p { font-size: 13px; color: #555; line-height: 1.5; }
-  .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; margin-top: 10px; }
-  .tag-ready { background: #DCFCE7; color: #16A34A; }
-  .tag-tbd { background: #F0F0F0; color: #757575; }
+  .card-kickoff { background: #E8EAF6; border: 1.5px solid #7986CB; color: #1A237E; }
+  .card-kickoff h2 { color: #1A237E; }
+  .card-campaigns { background: #FFF8DC; border: 1.5px solid #D4A017; color: #4E3300; }
+  .card-campaigns h2 { color: #4E3300; }
+  .card-flows { background: #EDE7F6; border: 1.5px solid #7E57C2; color: #2A1052; }
+  .card-flows h2 { color: #2A1052; }
 
-  .connector { display: flex; flex-direction: column; align-items: center; padding: 8px 0; }
-  .connector .pipe { width: 2px; height: 32px; background: #ccc; }
-  .connector .arrow { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 7px solid #ccc; }
+  /* Connector from kickoff down to split */
+  .connector-down { display: flex; flex-direction: column; align-items: center; padding: 6px 0 0; }
+  .connector-down .pipe { width: 2px; height: 28px; background: #bbb; }
 
-  .footer { margin-top: 36px; font-size: 12px; color: #999; text-align: center; }
+  /* Split */
+  .split { display: flex; width: 100%; justify-content: center; position: relative; padding-top: 0; gap: 32px; }
+  .split::before { content: ''; position: absolute; top: 0; left: calc(50% - 168px); width: 336px; height: 2px; background: #bbb; }
+  .split-branch { display: flex; flex-direction: column; align-items: center; flex: 1; max-width: 300px; }
+  .split-branch .branch-pipe { width: 2px; height: 24px; background: #bbb; }
+  .split-branch .branch-arrow { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 7px solid #bbb; margin-bottom: 12px; }
+
+  .footer { margin-top: 40px; font-size: 12px; color: #999; text-align: center; }
 </style>
 </head>
 <body>
 <div class="container">
   <h1>Workflows</h1>
-  <p class="subtitle">Full process overview — from onboarding to launch</p>
+  <p class="subtitle">Full process overview for the L&C team</p>
 
   <div class="process">
 
-    <!-- Step 1 -->
-    <div style="display:flex;flex-direction:column;align-items:center;width:100%;">
-      <div class="step-num" style="background:#3F51B5;">1</div>
-      <a class="card" href="kickoff-onboarding.html">
-        <h2>Kickoff & Onboarding</h2>
-        <p>Initial client setup, onboarding process, and project kickoff before campaign work begins.</p>
-        <span class="tag tag-tbd">TBD</span>
-      </a>
-    </div>
+    <a class="card card-kickoff" href="kickoff-onboarding.html">
+      <h2>Kickoff & Onboarding</h2>
+      <p>Initial client setup, kickoff, and onboarding process.</p>
+    </a>
 
-    <div class="connector"><div class="pipe"></div><div class="arrow"></div></div>
+    <div class="connector-down"><div class="pipe"></div></div>
 
-    <!-- Step 2 -->
-    <div style="display:flex;flex-direction:column;align-items:center;width:100%;">
-      <div class="step-num" style="background:#C5A000;">2</div>
-      <a class="card" href="campaigns-workflow.html">
-        <h2>Campaigns</h2>
-        <p>Detailed status-by-status breakdown mapped to ClickUp. Covers every handoff, review loop, client feedback path, and edge case.</p>
-        <span class="tag tag-ready">Ready</span>
-      </a>
-    </div>
-
-    <div class="connector"><div class="pipe"></div><div class="arrow"></div></div>
-
-    <!-- Step 3 -->
-    <div style="display:flex;flex-direction:column;align-items:center;width:100%;">
-      <div class="step-num" style="background:#7E57C2;">3</div>
-      <a class="card" href="flows-workflow.html">
-        <h2>Flows</h2>
-        <p>End-to-end flow process — from strategy through implementation and scheduling.</p>
-        <span class="tag tag-tbd">TBD</span>
-      </a>
+    <div class="split">
+      <div class="split-branch">
+        <div class="branch-pipe"></div>
+        <div class="branch-arrow"></div>
+        <a class="card card-campaigns" href="campaigns-workflow.html">
+          <h2>Campaigns</h2>
+          <p>Detailed campaign workflow.</p>
+        </a>
+      </div>
+      <div class="split-branch">
+        <div class="branch-pipe"></div>
+        <div class="branch-arrow"></div>
+        <a class="card card-flows" href="flows-workflow.html">
+          <h2>Flows</h2>
+          <p>Detailed flow workflow.</p>
+        </a>
+      </div>
     </div>
 
   </div>
