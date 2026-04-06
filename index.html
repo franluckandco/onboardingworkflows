@@ -11,27 +11,24 @@
   h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; text-align: center; }
   .subtitle { font-size: 14px; color: #666; margin-bottom: 40px; text-align: center; }
 
-  .process { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .process { display: flex; flex-direction: column; align-items: center; }
 
-  .card { border-radius: 12px; padding: 28px 28px; text-decoration: none; color: inherit; display: block; transition: box-shadow 0.2s, transform 0.2s; width: 100%; }
+  .card { background: #fff; border: 1px solid #e2e2e2; border-radius: 12px; padding: 20px 24px; text-decoration: none; color: inherit; display: block; transition: box-shadow 0.2s, transform 0.2s; }
   .card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }
-  .card h2 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
-  .card p { font-size: 13px; line-height: 1.5; opacity: 0.8; }
+  .card h2 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .card p { font-size: 13px; color: #666; line-height: 1.5; }
 
-  .card-kickoff { background: #E8EAF6; border: 1.5px solid #7986CB; color: #1A237E; }
-  .card-kickoff h2 { color: #1A237E; }
-  .card-campaigns { background: #FFF8DC; border: 1.5px solid #D4A017; color: #4E3300; }
-  .card-campaigns h2 { color: #4E3300; }
-  .card-flows { background: #EDE7F6; border: 1.5px solid #7E57C2; color: #2A1052; }
-  .card-flows h2 { color: #2A1052; }
+  .card-kickoff h2 { color: #3F51B5; }
+  .card-campaigns h2 { color: #C5A000; }
+  .card-flows h2 { color: #7E57C2; }
 
-  /* Connector from kickoff down to split */
+  .top-card { width: 300px; }
+
   .connector-down { display: flex; flex-direction: column; align-items: center; padding: 6px 0 0; }
   .connector-down .pipe { width: 2px; height: 28px; background: #bbb; }
 
-  /* Split */
-  .split { display: flex; width: 100%; justify-content: center; position: relative; padding-top: 0; gap: 32px; }
-  .split::before { content: ''; position: absolute; top: 0; left: calc(50% - 168px); width: 336px; height: 2px; background: #bbb; }
+  .split { display: flex; width: 100%; justify-content: center; position: relative; padding-top: 0; gap: 40px; }
+  .split::before { content: ''; position: absolute; top: 0; left: calc(50% - 170px); width: 340px; height: 2px; background: #bbb; }
   .split-branch { display: flex; flex-direction: column; align-items: center; flex: 1; max-width: 300px; }
   .split-branch .branch-pipe { width: 2px; height: 24px; background: #bbb; }
   .split-branch .branch-arrow { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 7px solid #bbb; margin-bottom: 12px; }
@@ -46,7 +43,7 @@
 
   <div class="process">
 
-    <a class="card card-kickoff" href="kickoff-onboarding.html">
+    <a class="card card-kickoff top-card" href="kickoff-onboarding.html">
       <h2>Kickoff & Onboarding</h2>
       <p>Initial client setup, kickoff, and onboarding process.</p>
     </a>
