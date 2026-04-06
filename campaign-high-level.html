@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>High-Level Campaign Workflow</title>
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; margin: 24px; background: #fff; }
+  h1 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .back { font-size: 13px; color: #534AB7; text-decoration: none; display: inline-block; margin-bottom: 16px; }
+  .back:hover { text-decoration: underline; }
+  .leg { display:flex; gap:16px; flex-wrap:wrap; padding:12px 0 8px; font-size:12px; color:#666; }
+  .leg span { display:flex; align-items:center; gap:5px; }
+  .dot { width:11px; height:11px; border-radius:50%; flex-shrink:0; display:inline-block; }
+  #flow svg { width:100% !important; height:auto !important; }
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← Back to all workflows</a>
+<h1>High-Level Campaign Workflow</h1>
+
+<div class="leg">
+  <span><i class="dot" style="background:#CECBF6;outline:1px solid #534AB7"></i>PM – Project Manager</span>
+  <span><i class="dot" style="background:#F5C4B3;outline:1px solid #993C1D"></i>S – Strategist</span>
+  <span><i class="dot" style="background:#FAC775;outline:1px solid #BA7517"></i>C – Copywriter</span>
+  <span><i class="dot" style="background:#F7C1C1;outline:1px solid #A32D2D"></i>D – Designer</span>
+</div>
+
+<div id="flow"></div>
+
+<script>
+const diagram = `flowchart TD
+  classDef pm  fill:#EEEDFE,stroke:#534AB7,color:#26215C,stroke-width:1px
+  classDef s   fill:#FAECE7,stroke:#993C1D,color:#4A1B0C,stroke-width:1px
+  classDef c   fill:#FAEEDA,stroke:#BA7517,color:#412402,stroke-width:1px
+  classDef des fill:#FCEBEB,stroke:#A32D2D,color:#501313,stroke-width:1px
+  classDef fin fill:#EAF3DE,stroke:#639922,color:#173404,stroke-width:1px
+  classDef dec fill:#E3F2FD,stroke:#1565C0,color:#0D2E5A,stroke-width:1.5px
+
+  START([Campaigns])
+  B1[PM · Adjust and send intake form]:::pm
+  D1{{"Client filled\\nthe intake form?"}}:::dec
+  REM[PM · Send reminder to client]:::pm
+  B2[S · Plan monthly calendar and briefs]:::s
+  B3[PM · Schedule monthly call]:::pm
+  B4[PM · Populate ClickUp tasks]:::pm
+  B5[S · Finalize Strategy Brief]:::s
+  B6[C · Copy created]:::c
+  D2{{"Strategist approves\\nthe copy?"}}:::dec
+  REW[C · Copy rewrite]:::c
+  B7[D · Design created]:::des
+  D3{{"Strategist approves\\nthe design?"}}:::dec
+  RED[D · Design redo]:::des
+  B8[PM · Send deliverable to client]:::pm
+  D4{{"Client approves\\nthe deliverables?"}}:::dec
+  D5{{"Big or\\nsmall edits?"}}:::dec
+  B9[S · Set segmentation and schedule]:::fin
+  END([Complete]):::fin
+
+  START --> B1 --> D1
+  D1 -- Yes --> B2
+  D1 -- No --> REM --> D1
+  B2 --> B3 --> B4 --> B5 --> B6 --> D2
+  D2 -- Yes --> B7
+  D2 -- No --> REW --> B6
+  B7 --> D3
+  D3 -- Yes --> B8
+  D3 -- No --> RED --> B7
+  B8 --> D4
+  D4 -- Yes --> B9
+  D4 -- No --> D5
+  D5 -- Big change --> CHGB[Changes are made]:::pm
+  D5 -- Small change --> CHGS[Changes are made]:::pm
+  CHGB --> B8
+  CHGS --> B9
+  B9 --> END`;
+
+const scr = document.createElement('script');
+scr.src = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js';
+scr.onload = function() {
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'base',
+    flowchart: { curve: 'linear', nodeSpacing: 40, rankSpacing: 52 },
+    themeVariables: {
+      fontSize: '13px',
+      fontFamily: 'system-ui, sans-serif',
+      primaryColor: '#ffffff',
+      primaryBorderColor: '#aaaaaa',
+      primaryTextColor: '#111111',
+      lineColor: '#aaaaaa',
+      edgeLabelBackground: '#f5f5f5'
+    }
+  });
+  mermaid.render('mflow', diagram).then(function(result) {
+    document.getElementById('flow').innerHTML = result.svg;
+  });
+};
+document.head.appendChild(scr);
+</script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Granular ClickUp Workflow</title>
+<style>
+  body { font-family: system-ui, -apple-system, sans-serif; margin: 24px; background: #fff; }
+  h1 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .back { font-size: 13px; color: #534AB7; text-decoration: none; display: inline-block; margin-bottom: 16px; }
+  .back:hover { text-decoration: underline; }
+  .leg { display:flex; gap:16px; flex-wrap:wrap; padding:12px 0 8px; font-size:12px; color:#666; align-items:center; }
+  .leg span { display:flex; align-items:center; gap:5px; }
+  .dot { width:11px; height:11px; border-radius:50%; flex-shrink:0; display:inline-block; }
+  #flow svg { width:100% !important; height:auto !important; }
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← Back to all workflows</a>
+<h1>Granular ClickUp Workflow</h1>
+
+<div class="leg">
+  <span><i class="dot" style="background:#CECBF6;outline:1px solid #534AB7"></i>PM – Project Manager</span>
+  <span><i class="dot" style="background:#F5C4B3;outline:1px solid #993C1D"></i>S – Strategist</span>
+  <span><i class="dot" style="background:#FAC775;outline:1px solid #BA7517"></i>C – Copywriter</span>
+  <span><i class="dot" style="background:#F7C1C1;outline:1px solid #A32D2D"></i>D – Designer</span>
+  <span style="margin-left:8px"><svg width="36" height="12"><line x1="0" y1="6" x2="30" y2="6" stroke="#2E7D32" stroke-width="2.5"/><polygon points="30,3 36,6 30,9" fill="#2E7D32"/></svg> Forward</span>
+  <span><svg width="36" height="12"><line x1="0" y1="6" x2="30" y2="6" stroke="#E65100" stroke-width="2.5" stroke-dasharray="5 3"/><polygon points="30,3 36,6 30,9" fill="#E65100"/></svg> Loop back</span>
+</div>
+
+<div id="flow"></div>
+
+<script>
+const diagram = `flowchart TD
+  classDef pm    fill:#EEEDFE,stroke:#534AB7,color:#26215C,stroke-width:1px
+  classDef s     fill:#FAECE7,stroke:#993C1D,color:#4A1B0C,stroke-width:1px
+  classDef c     fill:#FAEEDA,stroke:#BA7517,color:#412402,stroke-width:1px
+  classDef des   fill:#FCEBEB,stroke:#A32D2D,color:#501313,stroke-width:1px
+  classDef dec   fill:#E3F2FD,stroke:#1565C0,color:#0D2E5A,stroke-width:1px
+
+  classDef idea  fill:#ffffff,stroke:#999,color:#333,stroke-width:1.5px,stroke-dasharray:4 2
+  classDef strat fill:#FFF8DC,stroke:#D4A017,color:#4E3300,stroke-width:2px
+  classDef copy  fill:#F3E8FF,stroke:#8B2FC9,color:#3B0764,stroke-width:2px
+  classDef crev  fill:#E0FAF7,stroke:#008B8B,color:#004040,stroke-width:2px
+  classDef dsgn  fill:#EDEAFF,stroke:#5C4DB1,color:#1E1458,stroke-width:2px
+  classDef drev  fill:#FF85C8,stroke:#C2006E,color:#5A0030,stroke-width:2px
+  classDef dapp  fill:#DDEEFF,stroke:#1A6BB5,color:#0A2E52,stroke-width:2px
+  classDef icr   fill:#D7B49E,stroke:#7B4A2D,color:#2E1200,stroke-width:2px
+  classDef crd   fill:#FFE8CC,stroke:#BF5E00,color:#3D1A00,stroke-width:2px
+  classDef cappr fill:#DCFCE7,stroke:#16A34A,color:#052E16,stroke-width:2px
+  classDef sched fill:#D4F5D4,stroke:#22A722,color:#063006,stroke-width:2px
+  classDef hold  fill:#F0F0F0,stroke:#757575,color:#222,stroke-width:2px
+  classDef canc  fill:#2D2D2D,stroke:#111,color:#fff,stroke-width:2px
+
+  IDEA([IDEA]):::idea
+  STRAT([STRATEGY]):::strat
+  COPY([COPY]):::copy
+  COPYREV([COPY REVIEW]):::crev
+  DES([DESIGN]):::dsgn
+  DESREV([DESIGN REVIEW]):::drev
+  DESAPP([DESIGN APPROVED]):::dapp
+  ICR([IN CLIENT REVIEW]):::icr
+  CRD([CLIENT REVIEWED]):::crd
+  CA([CLIENT APPROVED]):::cappr
+  SCHED([SCHEDULED]):::sched
+  HOLD([ON HOLD]):::hold
+  CANC([CANCELLED]):::canc
+
+  IDEA --> A1["<b>S</b> · Create campaign brief"]:::s
+  A1 --> D1{"Campaign confirmed by client?"}:::dec
+  D1 -- No --> WAIT["Await monthly call or async approval"]
+  WAIT --> D1
+  D1 -- Yes --> STRAT
+
+  STRAT --> B1["<b>PM</b> · Apply task template\\nset subtasks and deadlines"]:::pm
+  B1 --> D2{"Full brief already exists?"}:::dec
+  D2 -- Yes --> COPY
+  D2 -- No --> B2["<b>S</b> · Complete strategy and brief"]:::s
+  B2 --> COPY
+
+  COPY --> C1["<b>C</b> · Write copy in Google Doc\\nadd doc link, resolve subtask"]:::c
+  C1 --> COPYREV
+
+  COPYREV --> D3{"<b>S</b> · Copy approved?"}:::dec
+  D3 -- Approved --> DES
+  D3 -- Edits needed --> C3["<b>S</b> · Create copy edits subtask\\nsend back to COPY"]:::s
+  C3 --> COPY
+
+  DES --> E1["<b>D</b> · Design in Figma\\nexport to Klaviyo, add links\\nresolve subtask"]:::des
+  E1 --> DESREV
+
+  DESREV --> D4{"<b>S</b> · Design approved?"}:::dec
+  D4 -- Edits needed --> E3["<b>S</b> · Create design edits subtask\\nassign to Designer"]:::s
+  E3 --> DES
+  D4 -- Approved --> E4["<b>S</b> · Confirm subject line\\nand preview text"]:::s
+  E4 --> DESAPP
+
+  DESAPP --> F1["<b>PM</b> · QA campaign\\nlinks, ALT text, typos\\nmobile and desktop"]:::pm
+  F1 --> F2["<b>PM</b> · Send preview to self\\nthen send to client via Mixmax"]:::pm
+  F2 --> ICR
+
+  ICR --> D5{"Client feedback?"}:::dec
+  D5 -- Approved --> CA
+  D5 -- Minor edits --> G1["<b>PM</b> · Add edit subtasks\\nassign team"]:::pm
+  G1 --> G2["<b>C</b> or <b>D</b> · Complete edits\\n(use regular process with S reviews)"]:::c
+  G2 --> G3["<b>PM</b> · Review completed edits"]:::pm
+  G3 --> CA
+  D5 -- Complex, needs Strategist --> G4["<b>PM</b> · Tag Strategist\\nmove to CLIENT REVIEWED"]:::pm
+  G4 --> CRD
+
+  CRD --> CR1["<b>S</b> · Review client feedback\\ndecide on next steps"]:::s
+  CR1 --> CR2["<b>C</b> or <b>D</b> · Complete edits\\n(use regular process with S reviews)"]:::c
+  CR2 --> CR3["<b>S</b> · Review completed edits"]:::s
+  CR3 --> DESAPP
+
+  CA --> H1["<b>S</b> · Schedule campaign in Klaviyo"]:::s
+  H1 --> SCHED
+
+  NOTE["Any active status can move\\nto ON HOLD or CANCELLED"]
+  NOTE -.-> HOLD
+  NOTE -.-> CANC
+
+  linkStyle 0,1,4,5,6,7,8,9,10,11,12,13,16,17,18,21,22,23,24,25,26,27,28,29,30,31,32,33,34,37,38,39 stroke:#2E7D32,stroke-width:2px
+  linkStyle 2,3,14,15,19,20,35,36 stroke:#E65100,stroke-width:2px,stroke-dasharray:6 3`;
+
+const scr = document.createElement('script');
+scr.src = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js';
+scr.onload = function() {
+  mermaid.initialize({
+    startOnLoad: false,
+    htmlLabels: true,
+    theme: 'base',
+    flowchart: { curve: 'linear', nodeSpacing: 50, rankSpacing: 40, htmlLabels: true },
+    themeVariables: {
+      fontSize: '13px',
+      fontFamily: 'system-ui, sans-serif',
+      primaryColor: '#ffffff',
+      primaryBorderColor: '#aaaaaa',
+      primaryTextColor: '#111111',
+      lineColor: '#aaaaaa',
+      edgeLabelBackground: '#f5f5f5'
+    }
+  });
+  mermaid.render('mflow', diagram).then(function(result) {
+    document.getElementById('flow').innerHTML = result.svg;
+
+    const svg = document.querySelector('#flow svg');
+    const defs = svg.querySelector('defs');
+    const mkr = (id, color) => `
+      <marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5"
+        markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="${color}"/>
+      </marker>`;
+    defs.insertAdjacentHTML('beforeend', mkr('head-green','#2E7D32') + mkr('head-orange','#E65100'));
+
+    svg.querySelectorAll('path.edge-thickness-normal, path[class*="flowchart-link"]').forEach(p => {
+      const stroke = p.style.stroke || p.getAttribute('stroke') || '';
+      if (stroke.includes('2E7D32')) p.setAttribute('marker-end','url(#head-green)');
+      else if (stroke.includes('E65100')) p.setAttribute('marker-end','url(#head-orange)');
+    });
+  });
+};
+document.head.appendChild(scr);
+</script>
+</body>
+</html>

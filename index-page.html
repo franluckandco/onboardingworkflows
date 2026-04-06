@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Workflows</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: #f8f9fa; color: #1a1a1a; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .container { max-width: 560px; width: 100%; }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .subtitle { font-size: 14px; color: #666; margin-bottom: 32px; }
+  .card { background: #fff; border: 1px solid #e2e2e2; border-radius: 12px; padding: 24px; margin-bottom: 16px; text-decoration: none; color: inherit; display: block; transition: box-shadow 0.15s, border-color 0.15s; }
+  .card:hover { border-color: #534AB7; box-shadow: 0 4px 16px rgba(83,74,183,0.12); }
+  .card h2 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  .card p { font-size: 13px; color: #555; line-height: 1.5; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; margin-top: 10px; }
+  .tag.overview { background: #EEEDFE; color: #534AB7; }
+  .tag.detailed { background: #FAECE7; color: #993C1D; }
+  .footer { margin-top: 32px; font-size: 12px; color: #999; text-align: center; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Campaign Workflows</h1>
+  <p class="subtitle">Process documentation for the campaigns team</p>
+
+  <a class="card" href="campaign-high-level-workflow.html">
+    <h2>High-Level Campaign Workflow</h2>
+    <p>End-to-end overview of the campaign process — from intake form through segmentation and scheduling. Shows role assignments and decision gates.</p>
+    <span class="tag overview">Overview</span>
+  </a>
+
+  <a class="card" href="campaign-granular-cu-workflow.html">
+    <h2>Granular ClickUp Workflow</h2>
+    <p>Detailed status-by-status breakdown mapped to ClickUp. Covers every handoff, review loop, client feedback path, and edge case.</p>
+    <span class="tag detailed">Detailed</span>
+  </a>
+
+  <div class="footer">
+    To request changes, open the Claude project and describe the update you need.
+  </div>
+</div>
+</body>
+</html>
