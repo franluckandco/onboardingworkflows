@@ -21,8 +21,8 @@
 
   .nodes { display: flex; flex-direction: column; align-items: center; }
 
-  /* status badge */
   .status { padding: 8px 24px; border-radius: 20px; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; display: inline-block; scroll-margin-top: 24px; }
+  .st-intake { background: #E8EAF6; border: 2px solid #3F51B5; color: #1A237E; }
   .st-idea   { background: #fff; border: 2px dashed #999; color: #333; }
   .st-strat  { background: #FFF8DC; border: 2px solid #D4A017; color: #4E3300; }
   .st-copy   { background: #F3E8FF; border: 2px solid #8B2FC9; color: #3B0764; }
@@ -37,7 +37,6 @@
   .st-hold   { background: #F0F0F0; border: 2px solid #757575; color: #222; }
   .st-canc   { background: #2D2D2D; border: 2px solid #111; color: #fff; }
 
-  /* ROLE COLORS */
   .n-pm  { background: #F0E6D6; border: 1.5px solid #8B6914; color: #3D2E00; }
   .n-s   { background: #FFF8DC; border: 1.5px solid #C5A000; color: #4E3300; }
   .n-c   { background: #FCE4EC; border: 1.5px solid #C2185B; color: #4A0028; }
@@ -47,7 +46,6 @@
   .n b { font-weight: 700; }
   .small-node { padding: 8px 16px; border-radius: 8px; font-size: 12px; text-align: center; line-height: 1.4; width: fit-content; min-width: 180px; }
 
-  /* decision */
   .diamond { background: #E3F2FD; border: 1.5px solid #1565C0; color: #0D2E5A; padding: 14px 28px; border-radius: 10px; font-size: 13px; font-weight: 600; text-align: center; min-width: 220px; max-width: 320px; position: relative; }
   .diamond::before { content: '◆'; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 10px; color: #1565C0; }
 
@@ -100,6 +98,33 @@
 
     <div class="nodes">
 
+      <!-- ===== INTAKE ===== -->
+      <div class="status st-intake" id="intake">Intake</div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <div class="n n-pm"><b>PM</b> · Adjust and send intake form</div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <div class="diamond">Client filled the intake form?</div>
+
+      <div class="branch-row">
+        <div class="branch-side">
+          <span class="branch-label lbl-yes">✓ Yes — received</span>
+          <div class="branch-connector"></div>
+          <div class="branch-action">Intake complete — proceed</div>
+          <a href="#idea" class="res res-cont">↓ Move to Idea</a>
+        </div>
+        <div class="branch-side">
+          <span class="branch-label lbl-no">✗ No — still waiting</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-pm"><b>PM</b> · Send reminder to client</div>
+          <div style="height:8px"></div>
+          <a href="#intake" class="res res-loop">↩ Loop — check again</a>
+        </div>
+      </div>
+
+      <div class="gap"><div class="pipe"></div></div>
+
       <!-- ===== IDEA ===== -->
       <div class="status st-idea" id="idea">Idea</div>
       <div class="gap"><div class="pipe"></div></div>
@@ -132,6 +157,8 @@
       <div class="gap"><div class="pipe"></div></div>
 
       <div class="n n-pm"><b>PM</b> · Apply task template, set subtasks and deadlines</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="n n-pm"><b>PM</b> · Populate ClickUp tasks</div>
       <div class="gap"><div class="pipe"></div></div>
 
       <div class="diamond">Full brief already exists?</div>
@@ -148,10 +175,13 @@
           <div class="branch-connector"></div>
           <div class="small-node n-s"><b>S</b> · Complete strategy and brief</div>
           <div style="height:8px"></div>
-          <a href="#copy" class="res res-cont">↓ Then move to Copy</a>
+          <a href="#finalize-brief" class="res res-cont">↓ Continue to finalize</a>
         </div>
       </div>
 
+      <div class="gap"><div class="pipe"></div></div>
+
+      <div class="n n-s" id="finalize-brief"><b>S</b> · Finalize Strategy Brief</div>
       <div class="gap"><div class="pipe"></div></div>
 
       <!-- ===== COPY ===== -->
