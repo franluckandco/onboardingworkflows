@@ -3,43 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campaign Workflows</title>
+<title>Workflows</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: system-ui, -apple-system, sans-serif; background: #f8f9fa; color: #1a1a1a; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
-  .container { max-width: 560px; width: 100%; }
-  h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
-  .subtitle { font-size: 14px; color: #666; margin-bottom: 32px; }
-  .card { background: #fff; border: 1px solid #e2e2e2; border-radius: 12px; padding: 24px; margin-bottom: 16px; text-decoration: none; color: inherit; display: block; transition: box-shadow 0.15s, border-color 0.15s; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: #f8f9fa; color: #1a1a1a; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 32px 24px; }
+  .container { max-width: 620px; width: 100%; }
+  h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { font-size: 14px; color: #666; margin-bottom: 36px; }
+
+  .process { display: flex; flex-direction: column; align-items: center; gap: 0; }
+
+  .step-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+
+  .card { background: #fff; border: 1px solid #e2e2e2; border-radius: 12px; padding: 24px 28px; text-decoration: none; color: inherit; display: block; transition: box-shadow 0.15s, border-color 0.15s; width: 100%; }
   .card:hover { border-color: #534AB7; box-shadow: 0 4px 16px rgba(83,74,183,0.12); }
-  .card h2 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  .card h2 { font-size: 17px; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
   .card p { font-size: 13px; color: #555; line-height: 1.5; }
   .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; margin-top: 10px; }
-  .tag.detailed { background: #FAECE7; color: #993C1D; }
-  .tag.overview { background: #EEEDFE; color: #534AB7; }
-  .footer { margin-top: 32px; font-size: 12px; color: #999; text-align: center; }
+  .tag-ready { background: #DCFCE7; color: #16A34A; }
+  .tag-tbd { background: #F0F0F0; color: #757575; }
+
+  .connector { display: flex; flex-direction: column; align-items: center; padding: 8px 0; }
+  .connector .pipe { width: 2px; height: 32px; background: #ccc; }
+  .connector .arrow { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 7px solid #ccc; }
+
+  .footer { margin-top: 36px; font-size: 12px; color: #999; text-align: center; }
 </style>
 </head>
 <body>
 <div class="container">
   <h1>Workflows</h1>
-  <p class="subtitle">Process documentation for the L&C  team.</p>
+  <p class="subtitle">Full process overview — from onboarding to launch</p>
 
-  <a class="card" href="campaigns-workflow.html">
-    <h2>Campaign Workflow</h2>
-    <p>End-to-end overview of the campaign process.</p>
-    <span class="tag overview">Overview</span>
-  </a>
+  <div class="process">
 
-  <a class="card" href="flows-workflow.html">
-    <h2>Flow Workflow</h2>
-    <p>End-to-end overview of the flow process.</p>
-    <span class="tag overview">Overview</span>
-  </a>
+    <!-- Step 1 -->
+    <div style="display:flex;flex-direction:column;align-items:center;width:100%;">
+      <div class="step-num" style="background:#3F51B5;">1</div>
+      <a class="card" href="kickoff-onboarding.html">
+        <h2>Kickoff & Onboarding</h2>
+        <p>Initial client setup, onboarding process, and project kickoff before campaign work begins.</p>
+        <span class="tag tag-tbd">TBD</span>
+      </a>
+    </div>
 
-  <div class="footer">
-    To request changes, open the Claude project and describe the update you need.
+    <div class="connector"><div class="pipe"></div><div class="arrow"></div></div>
+
+    <!-- Step 2 -->
+    <div style="display:flex;flex-direction:column;align-items:center;width:100%;">
+      <div class="step-num" style="background:#C5A000;">2</div>
+      <a class="card" href="campaigns-workflow.html">
+        <h2>Campaigns</h2>
+        <p>Detailed status-by-status breakdown mapped to ClickUp. Covers every handoff, review loop, client feedback path, and edge case.</p>
+        <span class="tag tag-ready">Ready</span>
+      </a>
+    </div>
+
+    <div class="connector"><div class="pipe"></div><div class="arrow"></div></div>
+
+    <!-- Step 3 -->
+    <div style="display:flex;flex-direction:column;align-items:center;width:100%;">
+      <div class="step-num" style="background:#7E57C2;">3</div>
+      <a class="card" href="flows-workflow.html">
+        <h2>Flows</h2>
+        <p>End-to-end flow process — from strategy through implementation and scheduling.</p>
+        <span class="tag tag-tbd">TBD</span>
+      </a>
+    </div>
+
   </div>
+
+  <div class="footer">To request changes, open the Claude project and describe the update you need.</div>
 </div>
 </body>
 </html>
