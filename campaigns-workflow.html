@@ -37,26 +37,25 @@
   .st-hold   { background: #F0F0F0; border: 2px solid #757575; color: #222; }
   .st-canc   { background: #2D2D2D; border: 2px solid #111; color: #fff; }
 
-  /* action node */
+  /* ROLE COLORS */
+  .n-pm  { background: #F0E6D6; border: 1.5px solid #8B6914; color: #3D2E00; }
+  .n-s   { background: #FFF8DC; border: 1.5px solid #C5A000; color: #4E3300; }
+  .n-c   { background: #FCE4EC; border: 1.5px solid #C2185B; color: #4A0028; }
+  .n-d   { background: #EDE7F6; border: 1.5px solid #7E57C2; color: #2A1052; }
+
   .n { padding: 10px 22px; border-radius: 10px; font-size: 13px; text-align: center; line-height: 1.45; max-width: 340px; width: fit-content; min-width: 240px; }
   .n b { font-weight: 700; }
-  .n-pm  { background: #EEEDFE; border: 1.5px solid #534AB7; color: #26215C; }
-  .n-s   { background: #FAECE7; border: 1.5px solid #993C1D; color: #4A1B0C; }
-  .n-c   { background: #FAEEDA; border: 1.5px solid #BA7517; color: #412402; }
-  .n-d   { background: #FCEBEB; border: 1.5px solid #A32D2D; color: #501313; }
   .small-node { padding: 8px 16px; border-radius: 8px; font-size: 12px; text-align: center; line-height: 1.4; width: fit-content; min-width: 180px; }
 
   /* decision */
   .diamond { background: #E3F2FD; border: 1.5px solid #1565C0; color: #0D2E5A; padding: 14px 28px; border-radius: 10px; font-size: 13px; font-weight: 600; text-align: center; min-width: 220px; max-width: 320px; position: relative; }
   .diamond::before { content: '◆'; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 10px; color: #1565C0; }
 
-  /* spacing */
   .gap { height: 32px; display: flex; align-items: center; justify-content: center; }
   .gap .pipe { width: 2px; height: 100%; background: #bbb; }
   .gap-sm { height: 20px; display: flex; align-items: center; justify-content: center; }
   .gap-sm .pipe { width: 2px; height: 100%; background: #bbb; }
 
-  /* branches */
   .branch-row { display: flex; width: 100%; justify-content: center; gap: 0; }
   .branch-side { display: flex; flex-direction: column; align-items: center; padding: 0 16px; flex: 0 0 auto; width: 340px; }
   .branch-label { font-size: 11px; font-weight: 700; padding: 3px 14px; border-radius: 12px; margin-bottom: 8px; margin-top: 4px; }
@@ -65,13 +64,11 @@
   .branch-connector { width: 2px; height: 16px; background: #bbb; }
   .branch-action { font-size: 12px; color: #555; text-align: center; line-height: 1.4; padding: 4px 8px; }
 
-  /* linked result */
   .res { font-size: 11px; font-weight: 600; margin-top: 6px; padding: 3px 12px; border-radius: 10px; display: inline-block; text-decoration: none; transition: opacity 0.15s; }
   .res:hover { opacity: 0.75; }
   .res-cont { background: #E8F5E9; color: #2E7D32; }
   .res-loop { background: #FFF3E0; color: #E65100; }
 
-  /* 3-way branch */
   .branch-row-3 { display: flex; width: 100%; justify-content: center; gap: 0; }
   .branch-side-3 { display: flex; flex-direction: column; align-items: center; padding: 0 10px; flex: 0 0 auto; width: 240px; }
   .lbl-complex { background: #FFF3E0; color: #BF5E00; }
@@ -82,7 +79,6 @@
 
   .hold-note { margin-top: 32px; padding: 16px 20px; background: #fafafa; border: 1px dashed #ccc; border-radius: 10px; text-align: center; font-size: 12px; color: #666; line-height: 1.5; display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; }
 
-  /* highlight animation when jumping to a section */
   @keyframes flash { 0%{box-shadow:0 0 0 6px rgba(83,74,183,0.35)} 100%{box-shadow:0 0 0 0 rgba(83,74,183,0)} }
   .status:target { animation: flash 1s ease-out; }
 </style>
@@ -91,16 +87,15 @@
 <div class="container">
   <a class="back" href="index.html">← Back to all workflows</a>
   <h1>Campaigns Workflow</h1>
+  <!-- File: campaigns-workflow.html -->
   <p class="subtitle">Detailed status-by-status breakdown with every handoff and review loop</p>
 
   <div class="page-card">
     <div class="leg">
-      <span><i class="ldot" style="background:#CECBF6;outline:1px solid #534AB7"></i>PM – Project Manager</span>
-      <span><i class="ldot" style="background:#F5C4B3;outline:1px solid #993C1D"></i>S – Strategist</span>
-      <span><i class="ldot" style="background:#FAC775;outline:1px solid #BA7517"></i>C – Copywriter</span>
-      <span><i class="ldot" style="background:#F7C1C1;outline:1px solid #A32D2D"></i>D – Designer</span>
-      <span style="margin-left:8px"><svg width="36" height="12"><line x1="0" y1="6" x2="30" y2="6" stroke="#2E7D32" stroke-width="2.5"/><polygon points="30,3 36,6 30,9" fill="#2E7D32"/></svg> Forward</span>
-      <span><svg width="36" height="12"><line x1="0" y1="6" x2="30" y2="6" stroke="#E65100" stroke-width="2.5" stroke-dasharray="5 3"/><polygon points="30,3 36,6 30,9" fill="#E65100"/></svg> Loop back</span>
+      <span><i class="ldot" style="background:#F0E6D6;outline:1px solid #8B6914"></i>PM – Project Manager</span>
+      <span><i class="ldot" style="background:#FFF8DC;outline:1px solid #C5A000"></i>S – Strategist</span>
+      <span><i class="ldot" style="background:#FCE4EC;outline:1px solid #C2185B"></i>C – Copywriter</span>
+      <span><i class="ldot" style="background:#EDE7F6;outline:1px solid #7E57C2"></i>D – Designer</span>
     </div>
 
     <div class="nodes">
@@ -242,25 +237,25 @@
           <span class="branch-label lbl-approved">✓ Approved</span>
           <div class="branch-connector"></div>
           <div class="branch-action">Client happy — no changes</div>
-          <a href="#client-approved" class="res res-cont">↓ Client Approved</a>
+          <a href="#client-approved" class="res res-cont">↓ Move to Client Approved</a>
         </div>
         <div class="branch-side-3">
           <span class="branch-label lbl-minor">~ Minor edits</span>
           <div class="branch-connector"></div>
           <div class="small-node n-pm" style="min-width:160px;"><b>PM</b> · Add edit subtasks, assign team</div>
           <div style="height:6px"></div>
-          <div class="small-node n-c" style="min-width:160px;font-size:11px;"><b>C</b> or <b>D</b> · Complete edits (S reviews)</div>
+          <div class="small-node n-c" style="min-width:160px;font-size:11px;"><b>C</b> or <b>D</b> · Completes edits</div>
           <div style="height:6px"></div>
-          <div class="small-node n-pm" style="min-width:160px;"><b>PM</b> · Review completed edits</div>
+          <div class="small-node n-s" style="min-width:160px;"><b>S</b> · Review completed edits</div>
           <div style="height:6px"></div>
-          <a href="#client-approved" class="res res-cont">↓ Client Approved</a>
+          <a href="#client-approved" class="res res-cont">↓ Move to Client Approved</a>
         </div>
         <div class="branch-side-3">
           <span class="branch-label lbl-complex">⚑ Complex — needs Strategist</span>
           <div class="branch-connector"></div>
           <div class="small-node n-pm" style="min-width:160px;"><b>PM</b> · Tag Strategist</div>
           <div style="height:6px"></div>
-          <a href="#client-reviewed" class="res res-loop">↓ Client Reviewed</a>
+          <a href="#client-reviewed" class="res res-loop">↓ Move to Client Reviewed</a>
         </div>
       </div>
 
