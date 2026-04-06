@@ -6,78 +6,20 @@
 <title>Flows Workflow</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { font-family: system-ui, -apple-system, sans-serif; background: #f8f9fa; color: #1a1a1a; min-height: 100vh; padding: 32px 24px; }
-  .container { max-width: 800px; margin: 0 auto; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: #f8f9fa; color: #1a1a1a; min-height: 100vh; padding: 32px 24px; display: flex; align-items: center; justify-content: center; }
+  .container { max-width: 560px; width: 100%; text-align: center; }
   .back { font-size: 13px; color: #534AB7; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 20px; font-weight: 500; }
   .back:hover { text-decoration: underline; }
-  h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-  .subtitle { font-size: 14px; color: #666; margin-bottom: 24px; }
-  .page-card { background: #fff; border: 1px solid #e2e2e2; border-radius: 12px; padding: 28px 32px 32px; overflow-x: auto; }
-  .leg { display: flex; gap: 18px; flex-wrap: wrap; padding: 0 0 18px; font-size: 12px; color: #555; border-bottom: 1px solid #eee; margin-bottom: 28px; }
-  .leg span { display: flex; align-items: center; gap: 6px; }
-  .ldot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
-  .footer { margin-top: 24px; font-size: 12px; color: #999; text-align: center; }
-
-  .nodes { display: flex; flex-direction: column; align-items: center; }
-
-  .n { padding: 10px 22px; border-radius: 10px; font-size: 13px; text-align: center; line-height: 1.45; max-width: 300px; width: fit-content; min-width: 220px; scroll-margin-top: 24px; }
-  .n b { font-weight: 700; }
-  .n-pm  { background: #EEEDFE; border: 1.5px solid #534AB7; color: #26215C; }
-  .n-s   { background: #FAECE7; border: 1.5px solid #993C1D; color: #4A1B0C; }
-  .n-c   { background: #FAEEDA; border: 1.5px solid #BA7517; color: #412402; }
-  .n-d   { background: #FCEBEB; border: 1.5px solid #A32D2D; color: #501313; }
-  .n-fin { background: #EAF3DE; border: 1.5px solid #639922; color: #173404; }
-  .n-cap { background: #fff; border: 2px solid #999; color: #333; border-radius: 24px; font-weight: 600; }
-  .n-end { background: #EAF3DE; border: 2px solid #639922; color: #173404; border-radius: 24px; font-weight: 600; }
-  .small-node { padding: 8px 16px; border-radius: 8px; font-size: 12px; text-align: center; line-height: 1.4; width: fit-content; min-width: 180px; }
-
-  .diamond { background: #E3F2FD; border: 1.5px solid #1565C0; color: #0D2E5A; padding: 14px 28px; border-radius: 10px; font-size: 13px; font-weight: 600; text-align: center; min-width: 220px; max-width: 300px; position: relative; }
-  .diamond::before { content: '◆'; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); font-size: 10px; color: #1565C0; }
-
-  .gap { height: 32px; display: flex; align-items: center; justify-content: center; }
-  .gap .pipe { width: 2px; height: 100%; background: #bbb; }
-
-  .branch-row { display: flex; width: 100%; justify-content: center; gap: 0; }
-  .branch-side { display: flex; flex-direction: column; align-items: center; padding: 0 16px; flex: 0 0 auto; width: 320px; }
-  .branch-label { font-size: 11px; font-weight: 700; padding: 3px 14px; border-radius: 12px; margin-bottom: 8px; margin-top: 4px; }
-  .lbl-yes { background: #E8F5E9; color: #2E7D32; }
-  .lbl-no  { background: #FFF3E0; color: #E65100; }
-  .lbl-big { background: #FFEBEE; color: #C62828; }
-  .lbl-sm  { background: #E8F5E9; color: #2E7D32; }
-  .branch-connector { width: 2px; height: 16px; background: #bbb; }
-  .branch-action { font-size: 12px; color: #555; text-align: center; line-height: 1.4; padding: 4px 8px; }
-
-  .res { font-size: 11px; font-weight: 600; margin-top: 6px; padding: 3px 12px; border-radius: 10px; display: inline-block; text-decoration: none; transition: opacity 0.15s; }
-  .res:hover { opacity: 0.75; }
-  .res-cont { background: #E8F5E9; color: #2E7D32; }
-  .res-loop { background: #FFF3E0; color: #E65100; }
-  .res-back { background: #FFEBEE; color: #C62828; }
-  .res-skip { background: #E8F5E9; color: #2E7D32; }
-
-  @keyframes flash { 0%{box-shadow:0 0 0 6px rgba(83,74,183,0.35)} 100%{box-shadow:0 0 0 0 rgba(83,74,183,0)} }
-  .n:target, .diamond:target { animation: flash 1s ease-out; }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 24px; }
+  .tbd { background: #fff; border: 1px solid #e2e2e2; border-radius: 12px; padding: 48px 32px; color: #999; font-size: 16px; }
+  .footer { margin-top: 24px; font-size: 12px; color: #999; }
 </style>
 </head>
 <body>
 <div class="container">
-  <a class="back" href="index.html">← Back to all workflows</a>
+  <a class="back" href="index.html">← Back to full process</a>
   <h1>Flows Workflow</h1>
-  <p class="subtitle">End-to-end overview from intake through scheduling</p>
-
-  <div class="page-card">
-    <div class="leg">
-      <span><i class="ldot" style="background:#CECBF6;outline:1px solid #534AB7"></i>PM – Project Manager</span>
-      <span><i class="ldot" style="background:#F5C4B3;outline:1px solid #993C1D"></i>S – Strategist</span>
-      <span><i class="ldot" style="background:#FAC775;outline:1px solid #BA7517"></i>C – Copywriter</span>
-      <span><i class="ldot" style="background:#F7C1C1;outline:1px solid #A32D2D"></i>D – Designer</span>
-    </div>
-
-    <div class="nodes">
-
-     TBD!    </div>
-  </div>
-
+  <div class="tbd">TBD</div>
   <div class="footer">To request changes, open the Claude project and describe the update you need.</div>
 </div>
 </body>
