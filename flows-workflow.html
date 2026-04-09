@@ -3,23 +3,430 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flows Workflow</title>
+<title>Granular Flow ClickUp Workflow</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: system-ui, -apple-system, sans-serif; background: #f8f9fa; color: #1a1a1a; min-height: 100vh; padding: 32px 24px; display: flex; align-items: center; justify-content: center; }
-  .container { max-width: 560px; width: 100%; text-align: center; }
-  .back { font-size: 13px; color: #534AB7; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 20px; font-weight: 500; }
-  .back:hover { text-decoration: underline; }
-  h1 { font-size: 22px; font-weight: 700; margin-bottom: 24px; }
-  .tbd { background: #fff; border: 1px solid #e2e2e2; border-radius: 12px; padding: 48px 32px; color: #999; font-size: 16px; }
-  .footer { margin-top: 24px; font-size: 12px; color: #999; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:system-ui,-apple-system,sans-serif; background:#f8f9fa; color:#1a1a1a; min-height:100vh; padding:32px 24px; }
+  .container { max-width:840px; margin:0 auto; }
+  .back { font-size:13px; color:#534AB7; text-decoration:none; display:inline-flex; align-items:center; gap:4px; margin-bottom:20px; font-weight:500; }
+  .back:hover { text-decoration:underline; }
+  h1 { font-size:22px; font-weight:700; margin-bottom:4px; }
+  .subtitle { font-size:14px; color:#666; margin-bottom:24px; }
+  .page-card { background:#fff; border:1px solid #e2e2e2; border-radius:12px; padding:28px 32px 32px; overflow-x:auto; }
+  .leg { display:flex; gap:18px; flex-wrap:wrap; padding:0 0 18px; font-size:12px; color:#555; border-bottom:1px solid #eee; margin-bottom:28px; }
+  .leg span { display:flex; align-items:center; gap:6px; }
+  .ldot { width:11px; height:11px; border-radius:50%; flex-shrink:0; }
+  .footer { margin-top:24px; font-size:12px; color:#999; text-align:center; }
+  .nodes { display:flex; flex-direction:column; align-items:center; }
+
+  .n { padding:10px 22px; border-radius:10px; font-size:13px; text-align:center; line-height:1.45; max-width:400px; width:fit-content; min-width:220px; }
+  .n b { font-weight:700; }
+  .n-pm  { background:#F0E6D6; border:1.5px solid #8B6914; color:#3D2E00; }
+  .n-s   { background:#FFF8DC; border:1.5px solid #C5A000; color:#4E3300; }
+  .n-c   { background:#FCE4EC; border:1.5px solid #C2185B; color:#4A0028; }
+  .n-d   { background:#EDE7F6; border:1.5px solid #7E57C2; color:#2A1052; }
+
+  .status { display:inline-block; padding:7px 18px; border-radius:20px; font-size:12px; font-weight:700; letter-spacing:.3px; text-transform:uppercase; scroll-margin-top:24px; }
+  .st-strat { background:#FFF8DC; border:2px solid #D4A017; color:#4E3300; }
+  .st-copy  { background:#F3E8FF; border:2px solid #8B2FC9; color:#3B0764; }
+  .st-crev  { background:#E0FAF7; border:2px solid #008B8B; color:#004040; }
+  .st-des   { background:#EDEAFF; border:2px solid #5C4DB1; color:#1E1458; }
+  .st-drev  { background:#FFD6EB; border:2px solid #C2006E; color:#5A0030; }
+  .st-dapp  { background:#DDEEFF; border:2px solid #1A6BB5; color:#0A2E52; }
+  .st-icr   { background:#E8D5C4; border:2px solid #7B4A2D; color:#2E1200; }
+  .st-crd   { background:#FFE8CC; border:2px solid #BF5E00; color:#3D1A00; }
+  .st-ca    { background:#DCFCE7; border:2px solid #16A34A; color:#052E16; }
+  .st-live  { background:#D4F5D4; border:2px solid #22A722; color:#063006; }
+  .st-hold  { background:#F0F0F0; border:2px solid #757575; color:#222; }
+  .st-canc  { background:#2D2D2D; border:2px solid #111; color:#fff; }
+
+  .diamond { background:#E3F2FD; border:1.5px solid #1565C0; color:#0D2E5A; padding:12px 22px; border-radius:10px; font-size:12px; font-weight:600; text-align:center; max-width:300px; }
+  .gap { display:flex; flex-direction:column; align-items:center; height:28px; justify-content:center; }
+  .gap-sm { display:flex; flex-direction:column; align-items:center; height:18px; justify-content:center; }
+  .pipe { width:2px; height:100%; background:#bbb; }
+
+  .branch-row { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin:8px 0; }
+  .branch-side { display:flex; flex-direction:column; align-items:center; gap:6px; padding:12px 16px; background:#fafafa; border:1px solid #e8e8e8; border-radius:10px; min-width:160px; max-width:260px; flex:1; }
+  .branch-label { font-size:11px; font-weight:700; padding:3px 10px; border-radius:8px; }
+  .lbl-yes { color:#2E7D32; background:#E8F5E9; }
+  .lbl-no  { color:#E65100; background:#FFF3E0; }
+  .branch-connector { width:2px; height:8px; background:#ccc; }
+  .branch-action { font-size:11px; color:#666; }
+  .res { font-size:10px; font-weight:600; text-decoration:none; margin-top:4px; }
+  .res-cont { color:#2E7D32; }
+  .res-loop { color:#E65100; }
+  .small-node { padding:7px 14px; border-radius:8px; font-size:11px; text-align:center; line-height:1.4; max-width:360px; }
+  .section-note { font-size:11px; color:#888; font-style:italic; margin-bottom:10px; }
+
+  .hold-note { margin-top:32px; padding:14px 20px; background:#fafafa; border:1px dashed #ccc; border-radius:10px; display:flex; align-items:center; gap:10px; font-size:12px; color:#666; justify-content:center; flex-wrap:wrap; }
+
+  .scenario-box { width:100%; padding:20px; border-radius:12px; margin:8px 0 4px; display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .sc-a { background:#f6fef9; border:1.5px solid #A5D6A7; }
+  .sc-b { background:#fffaf5; border:1.5px solid #FFCC80; }
+  .sc-c { background:#fef6f6; border:1.5px solid #EF9A9A; }
+  .scenario-title { font-size:13px; font-weight:700; padding:4px 14px; border-radius:8px; margin-bottom:4px; }
+
+  .status-sm { display:inline-block; padding:4px 12px; border-radius:14px; font-size:10px; font-weight:700; letter-spacing:.3px; text-transform:uppercase; }
+
+  .detail-list { font-size:10px; color:#666; text-align:left; margin:2px 0 4px; line-height:1.5; max-width:320px; }
+  .detail-list li { margin-bottom:2px; }
+
+  .note-box { background:#fff; border:1.5px dashed #999; color:#555; font-size:12px; padding:10px 18px; border-radius:10px; max-width:340px; text-align:center; line-height:1.45; }
 </style>
 </head>
 <body>
 <div class="container">
   <a class="back" href="index.html">← Back to full process</a>
-  <h1>Flows Workflow</h1>
-  <div class="tbd">TBD</div>
+  <h1>Flow Production — Granular ClickUp Workflow</h1>
+  <p class="subtitle">Detailed status-by-status flow with roles, decisions, and ClickUp statuses.</p>
+
+  <div class="page-card">
+    <div class="leg">
+      <span><i class="ldot" style="background:#F0E6D6;outline:1px solid #8B6914"></i> PM – Project Manager</span>
+      <span><i class="ldot" style="background:#FFF8DC;outline:1px solid #C5A000"></i> S – Strategist</span>
+      <span><i class="ldot" style="background:#FCE4EC;outline:1px solid #C2185B"></i> C – Copywriter</span>
+      <span><i class="ldot" style="background:#EDE7F6;outline:1px solid #7E57C2"></i> D – Designer</span>
+    </div>
+
+    <div class="nodes">
+
+      <!-- ===== STRATEGY ===== -->
+      <div class="status st-strat" id="strategy">Strategy</div>
+      <div class="gap"><div class="pipe"></div></div>
+      <div class="n n-s"><b>S</b> · Create flow strategy in FigJam</div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <div class="diamond">Present on call or async?</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="branch-row">
+        <div class="branch-side">
+          <span class="branch-label lbl-yes">Call</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-pm"><b>PM</b> · Schedule strategy call</div>
+          <div class="small-node n-s"><b>S</b> · Present strategy on call</div>
+        </div>
+        <div class="branch-side">
+          <span class="branch-label lbl-yes">Async</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-s"><b>S</b> · Record Loom walkthrough</div>
+          <div class="small-node n-pm"><b>PM</b> · Send Loom + FigJam to client</div>
+        </div>
+      </div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <div class="diamond">Client approves the strategy?</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="branch-row">
+        <div class="branch-side">
+          <span class="branch-label lbl-yes">✓ Yes, no changes</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-s"><b>S</b> · Final check on strategy</div>
+          <span class="res res-cont">↓ continue</span>
+        </div>
+        <div class="branch-side">
+          <span class="branch-label lbl-yes">✓ Yes, small changes</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-s"><b>S</b> · Make changes on/after call</div>
+          <span class="res res-cont">↓ continue</span>
+        </div>
+        <div class="branch-side">
+          <span class="branch-label lbl-no">✗ No, big changes</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-s"><b>S</b> · Make changes</div>
+          <div class="small-node n-pm"><b>PM</b> · Share via Slack for async approval</div>
+          <span class="res res-loop">↩ Re-send strategy</span>
+        </div>
+      </div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <div class="diamond">More than 3 emails in the flow?</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="branch-row">
+        <div class="branch-side">
+          <span class="branch-label lbl-yes">✓ Yes</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-pm"><b>PM</b> · Deploy CU task with nested subtask paths</div>
+          <span class="res res-cont">↓ continue</span>
+        </div>
+        <div class="branch-side">
+          <span class="branch-label lbl-no">✗ No</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-pm"><b>PM</b> · Deploy CU task with regular template</div>
+          <span class="res res-cont">↓ continue</span>
+        </div>
+      </div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ===== COPY ===== -->
+      <div class="status st-copy" id="copy">Copy</div>
+      <div class="gap"><div class="pipe"></div></div>
+      <div class="n n-c"><b>C</b> · Write copy in Google Doc, add doc link to task, resolve subtask, move status</div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ===== COPY REVIEW ===== -->
+      <div class="status st-crev" id="copy-review">Copy Review</div>
+      <div class="gap"><div class="pipe"></div></div>
+      <div class="n n-s"><b>S</b> · Review copy, bold chosen SL/PT in doc</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="diamond">Strategist approves the copy?</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="branch-row">
+        <div class="branch-side">
+          <span class="branch-label lbl-yes">✓ Approved</span>
+          <div class="branch-connector"></div>
+          <a href="#design" class="res res-cont">↓ Move to Design</a>
+        </div>
+        <div class="branch-side">
+          <span class="branch-label lbl-no">✗ Edits needed</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-s"><b>S</b> · Create "copy edits" subtask</div>
+          <a href="#copy" class="res res-loop">↩ Back to Copy</a>
+        </div>
+      </div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ===== DESIGN ===== -->
+      <div class="status st-des" id="design">Design</div>
+      <div class="gap"><div class="pipe"></div></div>
+      <div class="n n-d"><b>D</b> · Design in Figma, add Figma link to task, resolve subtask, move status</div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ===== DESIGN REVIEW ===== -->
+      <div class="status st-drev" id="design-review">Design Review</div>
+      <div class="gap"><div class="pipe"></div></div>
+      <div class="n n-s"><b>S</b> · Review design in Figma, leave comments for PM on things to highlight</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="diamond">Strategist approves the design?</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="branch-row">
+        <div class="branch-side">
+          <span class="branch-label lbl-yes">✓ Approved</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-s"><b>S</b> · Tag PM, confirm which emails are ready</div>
+          <a href="#design-approved" class="res res-cont">↓ Move to Design Approved</a>
+        </div>
+        <div class="branch-side">
+          <span class="branch-label lbl-no">✗ Edits needed</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-s"><b>S</b> · Create "design edits — see [place]" subtask</div>
+          <a href="#design" class="res res-loop">↩ Back to Design</a>
+        </div>
+      </div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ===== DESIGN APPROVED ===== -->
+      <div class="status st-dapp" id="design-approved">Design Approved</div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <div class="n n-pm"><b>PM</b> · Prepare Figma file: duplicate WIP → Client Review pages, strategy page, SL/PT, L&C notes, proofread</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="n n-s"><b>S</b> · Review prepared Figma file and sign off</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+      <div class="n n-pm"><b>PM</b> · Send Figma to client</div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ===== IN CLIENT REVIEW ===== -->
+      <div class="status st-icr" id="in-client-review">In Client Review</div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <div class="note-box">Client reviews the flow and leaves feedback as comments in Figma. Client tags PM in ClickUp when done.</div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <div class="diamond">Client feedback?</div>
+      <div class="gap-sm"><div class="pipe"></div></div>
+
+      <!-- ==================== SCENARIO A ==================== -->
+      <div class="scenario-box sc-a">
+        <span class="scenario-title" style="background:#E8F5E9;color:#2E7D32;">Scenario A — Approved, no changes</span>
+
+        <div class="small-node n-pm"><b>PM</b> · Comment approved, tag Strategist. Add subtasks: Build Flow, Upload, Final Review, QA</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-crd">Client Reviewed</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-s"><b>S</b> · Build flow structure in Klaviyo, add flow link to task description</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-des">Design</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-d"><b>D</b> · Upload approved email & SMS designs to Klaviyo</div>
+        <ul class="detail-list">
+          <li>Set up universal blocks</li>
+          <li>Configure dynamic blocks & properties</li>
+          <li>Add all links to blocks and CTAs</li>
+          <li>Preview own work before marking complete</li>
+        </ul>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-drev">Design Review</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-s"><b>S</b> · Final Design Review in Klaviyo</div>
+        <ul class="detail-list">
+          <li>Figma changes fully reflected in Klaviyo</li>
+          <li>All links correct</li>
+          <li>Dynamic blocks/properties configured</li>
+          <li>Discount codes & dynamic properties/codes correct</li>
+          <li>A/B tests configured</li>
+        </ul>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-dapp">Design Approved</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-pm"><b>PM</b> · Add SL/PT to Klaviyo flow</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-pm"><b>PM</b> · QA: check SL/PT, desktop, mobile, dark mode, links, dynamic properties</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-pm"><b>PM</b> · Send previews to client & kasey@luckandco.agency</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-pm"><b>PM</b> · Update FigJam board with Klaviyo preview links</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-ca">Client Approved</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-s"><b>S</b> · Activate flow in Klaviyo (+ A/B tests)</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-s"><b>S</b> · Deactivate old flow if replacing</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-s"><b>S</b> · Update CU task description ("Activated on [date]")</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="status-sm st-live">Activated ✓</div>
+      </div>
+
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ==================== SCENARIO B ==================== -->
+      <div class="scenario-box sc-b">
+        <span class="scenario-title" style="background:#FFF3E0;color:#E65100;">Scenario B — Minimal changes</span>
+
+        <div class="small-node n-pm"><b>PM</b> · Tag Strategist with feedback. Create subtasks: "Review feedback + take next steps" and "Build Flow in Klaviyo" (both → S)</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-crd">Client Reviewed</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-s"><b>S</b> · Review Figma comments, push back if needed</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-s"><b>S</b> · Build flow structure in Klaviyo, add flow link to task</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="diamond" style="font-size:11px;max-width:240px;">Copy edits needed?</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="branch-row">
+          <div class="branch-side" style="min-width:140px;">
+            <span class="branch-label lbl-yes">Quick</span>
+            <div class="branch-connector"></div>
+            <div class="small-node n-s" style="font-size:10px;"><b>S</b> · Edits doc directly, marks NEW</div>
+          </div>
+          <div class="branch-side" style="min-width:140px;">
+            <span class="branch-label lbl-no">Bigger</span>
+            <div class="branch-connector"></div>
+            <div class="small-node n-s" style="font-size:10px;"><b>S</b> · Create "Copy Edits — see Figma"</div>
+            <div class="small-node n-c" style="font-size:10px;"><b>C</b> · Apply edits → Copy Review</div>
+          </div>
+        </div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="small-node n-s"><b>S</b> · Create subtask: "Design Edits + Upload — see [Copy doc &] Figma"</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-des">Design</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-d"><b>D</b> · Apply Figma edits + upload emails & SMSs to Klaviyo in one step</div>
+        <ul class="detail-list">
+          <li>Set up universal blocks</li>
+          <li>Configure dynamic blocks & properties</li>
+          <li>Add all links to blocks and CTAs</li>
+          <li>Preview own work before marking complete</li>
+        </ul>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-drev">Design Review</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-s"><b>S</b> · Final Design Review in Klaviyo</div>
+        <ul class="detail-list">
+          <li>Figma changes fully reflected in Klaviyo</li>
+          <li>All links correct</li>
+          <li>Dynamic blocks/properties configured</li>
+          <li>Discount codes & dynamic properties/codes correct</li>
+          <li>A/B tests configured</li>
+        </ul>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-dapp">Design Approved</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-pm"><b>PM</b> · Add SL/PT to Klaviyo flow</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-pm"><b>PM</b> · QA: check SL/PT, desktop, mobile, dark mode, links, dynamic properties</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-pm"><b>PM</b> · Send previews to client & kasey@luckandco.agency</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-pm"><b>PM</b> · Update FigJam board with Klaviyo preview links</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-ca">Client Approved</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-s"><b>S</b> · Activate flow in Klaviyo (+ A/B tests)</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-s"><b>S</b> · Deactivate old flow if replacing</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-s"><b>S</b> · Update CU task description ("Activated on [date]")</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="status-sm st-live">Activated ✓</div>
+      </div>
+
+      <div class="gap"><div class="pipe"></div></div>
+
+      <!-- ==================== SCENARIO C ==================== -->
+      <div class="scenario-box sc-c">
+        <span class="scenario-title" style="background:#FFEBEE;color:#C62828;">Scenario C — Big changes</span>
+
+        <div class="small-node n-pm"><b>PM</b> · Tag Strategist. Create subtask: "Review feedback + take next steps"</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-crd">Client Reviewed</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-s"><b>S</b> · Review Figma comments, create copy/design edit subtasks as needed</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-copy">Copy</div>
+        <span style="font-size:10px;color:#888;">(if copy edits needed)</span>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-c"><b>C</b> · Apply copy edits</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-crev">Copy Review</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-s"><b>S</b> · Review copy edits</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-des">Design</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-d"><b>D</b> · Apply design edits in Figma (NO upload to Klaviyo yet)</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="status-sm st-drev">Design Review</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-s"><b>S</b> · Review design edits in Figma</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+
+        <div class="small-node n-s"><b>S</b> · Tag PM when edits are ready</div>
+        <div class="gap-sm"><div class="pipe"></div></div>
+        <div class="small-node n-pm"><b>PM</b> · Send updated Figma back to client</div>
+        <div style="height:6px"></div>
+        <a href="#in-client-review" class="res res-loop" style="font-size:11px;">↩ Back to In Client Review — repeat until Scenario A or B</a>
+      </div>
+
+      <!-- Hold / Cancel -->
+      <div class="hold-note">
+        <span>Any active status can move to:</span>
+        <span class="status st-hold" style="font-size:11px;padding:5px 14px;">On Hold</span>
+        <span>or</span>
+        <span class="status st-canc" style="font-size:11px;padding:5px 14px;">Cancelled</span>
+      </div>
+
+    </div>
+  </div>
+
   <div class="footer">To request changes, open the Claude project and describe the update you need.</div>
 </div>
 </body>
