@@ -73,6 +73,9 @@
   .lbl-minor { background: #E3F2FD; color: #1565C0; }
   .lbl-approved { background: #E8F5E9; color: #2E7D32; }
 
+  .claude-chip { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.3px; padding: 1px 8px; border-radius: 10px; background: #EEEDFE; border: 1px solid #534AB7; color: #3C3489; text-decoration: none; margin-left: 6px; vertical-align: 1px; font-style: normal; }
+  a.claude-chip:hover { background: #DCD9FB; }
+
   .section-note { font-size: 11px; color: #999; font-style: italic; text-align: center; margin: 4px 0 8px; }
 
   .hold-note { margin-top: 32px; padding: 16px 20px; background: #fafafa; border: 1px dashed #ccc; border-radius: 10px; text-align: center; font-size: 12px; color: #666; line-height: 1.5; display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; }
@@ -94,6 +97,7 @@
       <span><i class="ldot" style="background:#FFF8DC;outline:1px solid #C5A000"></i>S – Strategist</span>
       <span><i class="ldot" style="background:#FCE4EC;outline:1px solid #C2185B"></i>C – Copywriter</span>
       <span><i class="ldot" style="background:#EDE7F6;outline:1px solid #7E57C2"></i>D – Designer</span>
+      <span><i class="claude-chip" style="margin-left:0">Claude</i>Step run with a Claude skill (click to see how it works)</span>
     </div>
 
     <div class="nodes">
@@ -152,7 +156,7 @@
 
       <div class="gap"><div class="pipe"></div></div>
 
-      <div class="n n-pm"><b>PM</b> · After the monthly call, ask Claude for post-call notes + campaign template (one ask)</div>
+      <div class="n n-pm"><b>PM</b> · After the monthly call, ask Claude for post-call notes + campaign template (one ask)<a class="claude-chip" href="https://app.clickup.com/8426227/v/dc/814qk-1142/814qk-28977" target="_blank" rel="noopener">Claude ↗</a></div>
       <div class="gap"><div class="pipe"></div></div>
 
       <!-- ===== STRATEGY ===== -->
@@ -254,9 +258,30 @@
       <div class="status st-dapp" id="design-approved">Design Approved</div>
       <div class="gap"><div class="pipe"></div></div>
 
-      <div class="n n-pm"><b>PM</b> · QA campaign — links, ALT text, typos, mobile &amp; desktop</div>
-      <div class="gap-sm"><div class="pipe"></div></div>
-      <div class="n n-pm"><b>PM</b> · Send preview to self, then send to client via Mixmax</div>
+      <div class="n n-pm" id="run-qa"><b>PM</b> · Ask Claude to QA the campaign<a class="claude-chip" href="https://app.clickup.com/8426227/v/dc/814qk-1142/814qk-28997" target="_blank" rel="noopener">Claude ↗</a></div>
+      <div class="gap"><div class="pipe"></div></div>
+
+      <div class="diamond">Ready to send?</div>
+
+      <div class="branch-row">
+        <div class="branch-side">
+          <span class="branch-label lbl-yes">✓ Yes — ready</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-pm"><b>PM</b> · Test send to yourself: check it on your phone, desktop and dark mode, plus any likely orphans Claude flagged</div>
+          <div style="height:8px"></div>
+          <a href="#send-client" class="res res-cont">↓ Send to client</a>
+        </div>
+        <div class="branch-side">
+          <span class="branch-label lbl-no">✗ No — fixes needed</span>
+          <div class="branch-connector"></div>
+          <div class="small-node n-pm"><b>PM</b> · Send each fix to the right person</div>
+          <div style="height:8px"></div>
+          <a href="#run-qa" class="res res-loop">↩ Re-run the QA</a>
+        </div>
+      </div>
+
+      <div class="gap"><div class="pipe"></div></div>
+      <div class="n n-pm" id="send-client"><b>PM</b> · Send to client via Mixmax</div>
       <div class="gap"><div class="pipe"></div></div>
 
       <!-- ===== IN CLIENT REVIEW ===== -->
@@ -307,7 +332,7 @@
         <div class="gap-sm"><div class="pipe"></div></div>
         <div class="n n-s"><b>S</b> · Review completed edits</div>
         <div style="height:8px"></div>
-        <a href="#design-approved" class="res res-loop">↩ Return to Design Approved for QA &amp; re-send to client</a>
+        <a href="#design-approved" class="res res-loop">↩ Return to Design Approved: re-run the QA, then re-send to the client</a>
       </div>
 
       <div class="gap"><div class="pipe"></div></div>
